@@ -16,7 +16,7 @@ const app = new Hono()
     const { id } = c.req.param();
 
     const keys: GetCommandInput = {
-      TableName: Resource.Table.value,
+      TableName: Resource.Base.name,
       Key: {
         pk: "thing",
         sk: id,
@@ -32,7 +32,7 @@ const app = new Hono()
     const { id } = c.req.param();
 
     const keys: GetCommandInput = {
-      TableName: Resource.Table.value,
+      TableName: Resource.Base.name,
       Key: {
         pk: "otherThing",
         sk: id,

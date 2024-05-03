@@ -13,19 +13,20 @@ const client = DynamoDBDocumentClient.from(ddbClient);
 
 const app = new Hono()
   .post("/thing", async (c) => {
-    const { id } = await c.req.json<{ id: string }>();
+    const body = await c.req.json<{ id: string }>();
 
     const keys: PutCommandInput = {
-      TableName: Resource.Table.value,
+      TableName: Resource.Base.name,
       Item: {
         pk: "thing",
-        sk: id,
+        sk: body.id,
+        ...body,
       },
     };
 
     const res = await client.send(new PutCommand(keys));
 
-    if (res.$metadata.httpStatusCode !== 201) {
+    if (res.$metadata.httpStatusCode !== 200) {
       console.error("put command failed", res);
       return c.text("Something went wrong adding the thing", 500);
     }
@@ -33,19 +34,20 @@ const app = new Hono()
     return c.text("Added", 201);
   })
   .post("/otherThing", async (c) => {
-    const { id } = await c.req.json<{ id: string }>();
+    const body = await c.req.json<{ id: string }>();
 
     const keys: PutCommandInput = {
-      TableName: Resource.Table.value,
+      TableName: Resource.Base.name,
       Item: {
         pk: "otherThing",
-        sk: id,
+        sk: body.id,
+        ...body,
       },
     };
 
     const res = await client.send(new PutCommand(keys));
 
-    if (res.$metadata.httpStatusCode !== 201) {
+    if (res.$metadata.httpStatusCode !== 200) {
       console.error("put command failed", res);
       return c.text("Something went wrong adding the other thing", 500);
     }
