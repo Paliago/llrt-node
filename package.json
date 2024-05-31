@@ -9,6 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@pulumi/pulumi": "^3.117.0",
     "sst": "ion"
   },
   "workspaces": [

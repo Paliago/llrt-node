@@ -11,9 +11,11 @@ export default $config({
   },
   async run() {
     const infra = await import("./infra");
+
     $transform(sst.aws.Function, (args, opts) => {
       args.architecture = "arm64";
     });
+
     return {
       get: infra.api.get.url,
       post: infra.api.post.url,
